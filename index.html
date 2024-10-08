@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>欸按鈕</title>
+    <script>
+      let count = 0;
+      let timeoutId = null;
+
+      function sendEh() {
+        count++;
+        document.getElementById("oiCount").innerText = `欸次數：${count}`;
+
+        // 每次按完按鈕都重新計時，兩秒後自動觸發分享
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(shareEh, 2000); // 2秒後自動彈出分享功能
+      }
+
+      function shareEh() {
+        let oiText = "欸".repeat(count); // 根據點擊次數生成欸字串
+        if (navigator.share) {
+          navigator
+            .share({
+              title: "送出欸",
+              text: oiText, // 要分享的文字內容
+            })
+            .then(() => console.log("分享成功"))
+            .catch((error) => console.log("分享失敗", error));
+        } else {
+          alert("抱歉，您的裝置不支持分享功能");
+        }
+        count = 0; // 分享後將欸次數重置
+        document.getElementById("oiCount").innerText = `欸次數：${count}`;
+      }
+    </script>
+  </head>
+  <body>
+    <h1>按下欸按鈕！</h1>
+    <button onclick="sendEh()">欸</button>
+    <p id="eh-count">欸次數：0</p>
+  </body>
+</html>
