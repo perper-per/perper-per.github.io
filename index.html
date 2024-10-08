@@ -1,43 +1,50 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>欸按鈕</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oi 按鈕</title>
     <script>
-      let count = 0;
-      let timeoutId = null;
+        let count = 0;
 
-      function sendOi() {
-        count++;
-        document.getElementById("oiCount").innerText = `欸次數：${count}`;
+        // 按下按鈕，計算按下次數並自動複製字串
+        function sendOi() {
+            count++;
+            document.getElementById("oi-count").innerText = `Oi 次數：${count}`;
+            let oiText = "Oi".repeat(count); // 生成 Oi 字串
 
-        // 每次按完按鈕都重新計時，兩秒後自動觸發分享
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(shareOi, 2000); // 2秒後自動彈出分享功能
-      }
+            // 將生成的 Oi 字串複製到剪貼簿
+            navigator.clipboard.writeText(oiText).then(() => {
+                console.log("Oi 已複製到剪貼簿");
 
-      function shareEh() {
-        let oiText = "欸".repeat(count); // 根據點擊次數生成欸字串
-        if (navigator.share) {
-          navigator
-            .share({
-              title: "送出欸",
-              text: oiText, // 要分享的文字內容
-            })
-            .then(() => console.log("分享成功"))
-            .catch((error) => console.log("分享失敗", error));
-        } else {
-          alert("抱歉，您的裝置不支持分享功能");
+                // 成功複製後再觸發分享
+                shareOi(oiText);
+            }).catch(err => {
+                console.log('複製失敗', err);
+                alert("無法複製 Oi 到剪貼簿，請手動複製。");
+            });
         }
-        count = 0; // 分享後將欸次數重置
-        document.getElementById("oiCount").innerText = `欸次數：${count}`;
-      }
+
+        // 呼叫分享面板
+        function shareOi(oiText) {
+            if (navigator.share) {
+                navigator.share({
+                    title: '分享 Oi',
+                    text: oiText // 這裡的分享內容為多次 Oi 的字串
+                })
+                .then(() => console.log('分享成功'))
+                .catch((error) => console.log('分享失敗', error));
+            } else {
+                alert("抱歉，您的裝置不支持分享功能");
+            }
+            count = 0; // 分享後將 Oi 次數重置
+            document.getElementById("oi-count").innerText = `Oi 次數：0`;
+        }
     </script>
-  </head>
-  <body>
-    <h1>欸欸欸欸 欸按鈕！</h1>
-    <button onclick="sendOi()">欸</button>
-    <p id="oiCount">欸次數：0</p>
-  </body>
+</head>
+<body>
+    <h1>按下 Oi 按鈕！</h1>
+    <button onclick="sendOi()">Oi</button>
+    <p id="oi-count">Oi 次數：0</p>
+</body>
 </html>
