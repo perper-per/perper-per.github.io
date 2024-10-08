@@ -6,45 +6,51 @@
     <title>Oi 按鈕</title>
     <script>
         let count = 0;
+        let timeoutId = null;
 
         // 按下按鈕，計算按下次數並自動複製字串
         function sendOi() {
             count++;
             document.getElementById("oi-count").innerText = `Oi 次數：${count}`;
-            let oiText = "Oi".repeat(count); // 生成 Oi 字串
+            let oiText = "欸".repeat(count); // 生成 欸 字串
 
-            // 將生成的 Oi 字串複製到剪貼簿
-            navigator.clipboard.writeText(oiText).then(() => {
-                console.log("Oi 已複製到剪貼簿");
+            // 每次按完按鈕都重新計時，兩秒後自動觸發分享
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => {
+                // 將生成的 欸 字串複製到剪貼簿
+                navigator.clipboard.writeText(oiText).then(() => {
+                    console.log("欸已複製到剪貼簿");
 
-                // 成功複製後再觸發分享
-                shareOi(oiText);
-            }).catch(err => {
-                console.log('複製失敗', err);
-                alert("無法複製 Oi 到剪貼簿，請手動複製。");
-            });
+                    // 成功複製後再觸發分享
+                    shareOi(oiText);
+                }).catch(err => {
+                    console.log('複製失敗', err);
+                    alert("無法複製 欸 到剪貼簿，請手動複製。");
+                });
+            }, 2000); // 2 秒後觸發分享
         }
 
         // 呼叫分享面板
         function shareOi(oiText) {
             if (navigator.share) {
                 navigator.share({
-                    title: '分享 Oi',
-                    text: oiText // 這裡的分享內容為多次 Oi 的字串
+                    title: '分享 欸',
+                    text: oiText // 這裡的分享內容為多次 欸 的字串
                 })
                 .then(() => console.log('分享成功'))
                 .catch((error) => console.log('分享失敗', error));
             } else {
                 alert("抱歉，您的裝置不支持分享功能");
             }
-            count = 0; // 分享後將 Oi 次數重置
+            count = 0; // 分享後將 欸 次數重置
             document.getElementById("oi-count").innerText = `Oi 次數：0`;
         }
     </script>
 </head>
 <body>
-    <h1>按下 Oi 按鈕！</h1>
+    <h1>欸欸欸 欸 按鈕！</h1>
     <button onclick="sendOi()">Oi</button>
-    <p id="oi-count">Oi 次數：0</p>
+    <p id="oi-count"欸 次數：0</p>
 </body>
 </html>
+
